@@ -1,8 +1,12 @@
 package nazih.youssef.metier;
 
 import nazih.youssef.dao.IDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MetierImpl implements IMetier {
+    @Autowired
     private IDao dao;
 
     public IDao getDao() {
