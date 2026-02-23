@@ -1,0 +1,2 @@
+nazih.youssef.dao.DaoImpl
+nazih.youssef.metier.MetierImpl
