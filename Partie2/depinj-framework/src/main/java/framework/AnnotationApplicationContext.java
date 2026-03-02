@@ -29,13 +29,20 @@ public class AnnotationApplicationContext implements ApplicationContext {
 
 
     /// Iterates through classes, then calls registerBean for each class
+    /// Implemented fix to make it recursive, it keeps looping over directories
+    /// until it finds a class then registers it
     private void scanPackage(String basePackage) throws Exception {
         String path = basePackage.replace('.', '/');
         URL url = getClass().getClassLoader().getResource(path);
         File dir = new File(Objects.requireNonNull(url).toURI());
+        scanDirectory(basePackage, dir);
+    }
 
+    private void scanDirectory(String basePackage, File dir) throws Exception {
         for (File file : Objects.requireNonNull(dir.listFiles())) {
-            if (file.getName().endsWith(".class")) {
+            if (file.isDirectory()) {
+                scanDirectory(basePackage + "." + file.getName(), file);
+            } else if (file.getName().endsWith(".class")) {
                 registerBean(basePackage, file);
             }
         }
